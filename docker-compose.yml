@@ -1,11 +1,11 @@
 version: "3.9"
 services:
-  chatgpt-next-web:
+  stevanio:
     profiles: [ "no-proxy" ]
-    container_name: chatgpt-next-web
+    container_name: stevanio
     image: yidadaa/chatgpt-next-web
-    ports:
-      - 3000:3000
+    expose:
+      - 3000
     environment:
       - OPENAI_API_KEY=$OPENAI_API_KEY
       - GOOGLE_API_KEY=$GOOGLE_API_KEY
@@ -17,6 +17,8 @@ services:
       - ENABLE_BALANCE_QUERY=$ENABLE_BALANCE_QUERY
       - DISABLE_FAST_LINK=$DISABLE_FAST_LINK
       - OPENAI_SB=$OPENAI_SB
+    networks:
+      - nginxproxy
 
   chatgpt-next-web-proxy:
     profiles: [ "proxy" ]
@@ -36,3 +38,9 @@ services:
       - ENABLE_BALANCE_QUERY=$ENABLE_BALANCE_QUERY
       - DISABLE_FAST_LINK=$DISABLE_FAST_LINK
       - OPENAI_SB=$OPENAI_SB
+    networks:
+      - nginxproxy
+
+networks:
+  nginxproxy:
+    external: true
